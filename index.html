@@ -313,7 +313,6 @@ footer { padding-top: 24px; border-top: 1px solid var(--line); text-align: cente
     <div class="rule" aria-hidden="true"><span></span></div>
     <p class="status" id="status">One Christmas movie a night, 1 to 25 December.</p>
     <div class="controls">
-      <button class="btn ghost" id="peek-toggle" type="button">Preview all doors</button>
       <button class="btn ghost" id="sfx-toggle" type="button">Sounds on</button>
     </div>
   </header>
@@ -736,13 +735,10 @@ function setPeek(on) {
   PEEK = on;
   if (on) realState = state;
   else if (realState) state = realState;
-  $("peek-toggle").textContent = on ? "Back to the real calendar" : "Preview all doors";
   if ($("ticket").open) $("ticket").close();
   render();
 }
-$("peek-toggle").addEventListener("click", () => setPeek(!PEEK));
 window.addEventListener("hashchange", () => setPeek(/peek/.test(location.hash)));
-$("peek-toggle").textContent = PEEK ? "Back to the real calendar" : "Preview all doors";
 
 document.title = CFG.title || "Christmas Movie Advent";
 $("title").textContent = CFG.title || "Christmas Movie Advent";

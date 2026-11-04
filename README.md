@@ -13,7 +13,6 @@ Twenty-five gold-framed doors, one per night from 1 to 25 December. Each door un
 - **Swap it.** Not in the mood? Each night gets 3 swaps from a backup pool. After that, type in your own pick.
 - **Where to watch.** Every ticket links to JustWatch so you can see which service has it.
 - **Mark as watched.** Opened doors show the poster, and watched ones get a "Seen" stamp.
-- **Preview all doors.** Tap the button at the top to unlock everything and try it before December. Nothing you do in preview is saved.
 
 ## Make it yours
 
@@ -32,6 +31,8 @@ Everything about the lineup lives in one file, [`movies.js`](movies.js). You don
 3. **Turn on GitHub Pages.** In your fork, go to **Settings → Pages**, set **Source** to *Deploy from a branch*, pick `main` and `/ (root)`, and save. After a minute your calendar is live at `https://<your-username>.github.io/christmas-movie-advent/`.
 
 If something in `movies.js` is off, like a missing day, the calendar tells you what to fix instead of showing the doors.
+
+**Testing your lineup before December:** add `#peek` to the end of your calendar's link (for example `https://<your-username>.github.io/christmas-movie-advent/#peek`). Every door unlocks so you can check your movies and posters, and nothing you do there is saved. Remove `#peek` to go back to the real calendar. There's no button for this on the page, so visitors can't spoil the lineup.
 
 ## Good to know
 
