@@ -1,0 +1,762 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="A Christmas movie advent calendar: one film a night through December.">
+<style>:root { color-scheme: light; } body { margin: 0; } img { max-width: 100%; } [hidden] { display: none !important; }</style>
+<title>Christmas Movie Advent</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Limelight&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Courier+Prime:wght@400;700&display=swap">
+<style>
+/* Layout: an old picture-house programme. Four "reels" of doors, each door opens to a cinema ticket. */
+:root {
+  --paper: #ebe2cf;
+  --paper-2: #e0d4bb;
+  --ticket: #f6efdf;
+  --ink: #1d2540;
+  --ink-soft: #545a75;
+  --gold: #b07f24;
+  --on-gold: #1d2540;
+  --gold-wash: #e7cf92;
+  --plum: #6d3b55;
+  --line: rgba(29, 37, 64, .26);
+  --dust: #a8781f;
+  --beam: rgba(255, 233, 170, .5);
+  --g-dark: #6b4b14; --g-mid: #b8892e; --g-light: #f1d68a; --g-hi: #fff3c9;
+  --gilt: linear-gradient(135deg, #6b4b14 0%, #f1d68a 20%, #b8892e 42%, #fff3c9 60%, #b8892e 78%, #6b4b14 100%);
+  --shadow: rgba(29, 37, 64, .18);
+  --f-display: "Limelight", "Didot", "Bodoni 72", Georgia, serif;
+  --f-body: "Libre Caslon Text", "Baskerville", Georgia, serif;
+  --f-mono: "Courier Prime", "Courier New", ui-monospace, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #141a2b; --paper-2: #1b2238; --ticket: #222a43; --ink: #ece2cc; --ink-soft: #a7a28e;
+    --gold: #d6aa52; --on-gold: #141a2b; --gold-wash: #4a3c1f; --plum: #c991ab;
+    --line: rgba(236, 226, 204, .2); --shadow: rgba(0, 0, 0, .45); --dust: #f0d48a; --beam: rgba(214, 170, 82, .13); color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #141a2b; --paper-2: #1b2238; --ticket: #222a43; --ink: #ece2cc; --ink-soft: #a7a28e;
+  --gold: #d6aa52; --on-gold: #141a2b; --gold-wash: #4a3c1f; --plum: #c991ab;
+  --line: rgba(236, 226, 204, .2); --shadow: rgba(0, 0, 0, .45); --dust: #f0d48a; --beam: rgba(214, 170, 82, .13); color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--f-body);
+  font-size: 16px;
+  line-height: 1.55;
+  padding-inline: 16px;
+  padding-block: 0 64px;
+}
+body::before {
+  content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: .5;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.45  0 0 0 0 0.4  0 0 0 0 0.3  0 0 0 .22 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  mix-blend-mode: multiply;
+}
+#dust { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+.beam {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background: radial-gradient(ellipse 55% 65% at 50% -12%, var(--beam), transparent 70%);
+  animation: projector 9s steps(1) infinite;
+}
+@keyframes projector { 0% { opacity: 1; } 31% { opacity: .82; } 33% { opacity: 1; } 62% { opacity: .9; } 64% { opacity: 1; } 87% { opacity: .78; } 88% { opacity: 1; } }
+h1 { animation: flicker 1.4s ease-out both; }
+@keyframes flicker { 0% { opacity: 0; } 12% { opacity: .8; } 16% { opacity: .2; } 24% { opacity: 1; } 30% { opacity: .55; } 40%, 100% { opacity: 1; } }
+.wrap { position: relative; z-index: 1; max-width: 880px; margin: 0 auto; }
+
+/* Masthead */
+header { text-align: center; padding-block: 48px 28px; display: grid; gap: 10px; justify-items: center; }
+.kicker { font-family: var(--f-mono); font-size: 12px; letter-spacing: .22em; text-transform: uppercase; color: var(--ink-soft); }
+h1 {
+  font-family: var(--f-display); font-weight: 400; margin: 0;
+  font-size: clamp(38px, 8vw, 72px); line-height: 1; letter-spacing: .01em; text-wrap: balance;
+}
+.rule { display: flex; align-items: center; gap: 12px; width: min(420px, 100%); color: var(--gold); }
+.rule::before, .rule::after { content: ""; flex: 1; border-top: 1px solid currentColor; border-bottom: 1px solid currentColor; height: 4px; }
+.rule span { width: 9px; height: 9px; background: currentColor; transform: rotate(45deg); }
+.controls { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 4px; }
+
+/* Opening show: film leader countdown, then the gift */
+.show {
+  position: fixed; inset: 0; z-index: 50; display: grid; place-items: center;
+  background: rgba(10, 12, 20, .9); cursor: pointer;
+  animation: show-in .25s ease-out;
+}
+.show.out { animation: show-out .35s ease-in forwards; }
+@keyframes show-in { from { opacity: 0; } }
+@keyframes show-out { to { opacity: 0; } }
+.show canvas { width: min(78vmin, 480px); height: min(78vmin, 480px); max-width: calc(100% - 32px); }
+.show .skip {
+  position: absolute; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); left: 0; right: 0; margin: 0; text-align: center;
+  font-family: var(--f-mono); font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: #a7a28e;
+}
+.gift { position: relative; width: 180px; height: 220px; }
+.gift .rays {
+  position: absolute; left: 50%; top: 45%; width: 520px; height: 520px; margin: -260px 0 0 -260px; opacity: 0;
+  background: repeating-conic-gradient(rgba(241, 214, 138, .5) 0 6deg, transparent 6deg 20deg);
+  -webkit-mask: radial-gradient(circle, #000 0, transparent 65%); mask: radial-gradient(circle, #000 0, transparent 65%);
+}
+.gift .box, .gift .lid { position: absolute; left: 50%; background: var(--gilt); box-shadow: inset 0 0 0 1px #6b4b14; }
+.gift .box { bottom: 0; width: 160px; height: 130px; margin-left: -80px; }
+.gift .lid { bottom: 126px; width: 178px; height: 38px; margin-left: -89px; z-index: 2; box-shadow: inset 0 0 0 1px #6b4b14, 0 6px 8px -4px rgba(0, 0, 0, .5); }
+.gift .box::before, .gift .lid::before { content: ""; position: absolute; top: 0; bottom: 0; left: 50%; width: 26px; margin-left: -13px; background: #6d3b55; }
+.gift .box::after { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 0; }
+.gift .bow { position: absolute; left: 50%; bottom: 100%; width: 0; height: 0; }
+.gift .bow::before, .gift .bow::after {
+  content: ""; position: absolute; bottom: -4px; width: 44px; height: 30px; border: 9px solid #6d3b55; border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+}
+.gift .bow::before { right: 0; transform: rotate(-22deg); transform-origin: right bottom; }
+.gift .bow::after { left: 0; transform: rotate(22deg); transform-origin: left bottom; }
+.gift .spark { position: absolute; left: 50%; top: 45%; width: 7px; height: 7px; margin: -3px; background: #fff3c9; transform: rotate(45deg) scale(0); opacity: 0; box-shadow: 0 0 8px #f1d68a; }
+.gift .wrap-box { position: absolute; inset: 0; }
+.gift.go .wrap-box { animation: gift-in .45s cubic-bezier(.2, 1.4, .4, 1) backwards, wiggle .45s .45s ease-in-out; }
+.gift.go .lid { animation: lid-off .55s .95s cubic-bezier(.3, .6, .4, 1) forwards; }
+.gift.go .rays { animation: rays 1.2s .95s ease-out forwards; }
+.gift.go .spark { animation: spark .9s calc(1s + var(--d)) ease-out forwards; }
+@keyframes gift-in { from { transform: translateY(60px) scale(.4); opacity: 0; } }
+@keyframes wiggle { 20% { transform: rotate(-6deg); } 40% { transform: rotate(5deg); } 60% { transform: rotate(-4deg); } 80% { transform: rotate(2deg); } }
+@keyframes lid-off { to { transform: translate(40px, -170px) rotate(28deg); opacity: 0; } }
+@keyframes rays { 0% { opacity: 0; transform: scale(.2) rotate(0); } 35% { opacity: 1; } 100% { opacity: 0; transform: scale(1.3) rotate(40deg); } }
+@keyframes spark { 0% { opacity: 1; transform: translate(0, 0) rotate(45deg) scale(1); } 100% { opacity: 0; transform: translate(var(--dx), var(--dy)) rotate(45deg) scale(.3); } }
+
+.status { font-style: italic; font-size: 18px; margin: 0; text-wrap: balance; }
+.status strong { font-style: normal; font-family: var(--f-display); font-weight: 400; color: var(--plum); }
+.sync { font-family: var(--f-mono); font-size: 12px; color: var(--ink-soft); min-height: 1.2em; }
+
+.banner {
+  font-family: var(--f-mono); font-size: 13px; text-align: center; padding: 8px 12px;
+  border: 1px dashed var(--plum); color: var(--plum); margin-bottom: 24px;
+}
+
+/* Reels */
+.reel { display: grid; gap: 14px; padding-block: 22px; border-top: 1px solid var(--line); }
+.reel-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px; }
+.reel-head h2 { font-family: var(--f-display); font-weight: 400; font-size: 24px; margin: 0; }
+.reel-head .dates { font-family: var(--f-mono); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-soft); }
+.reel-head .vibe { flex-basis: 100%; margin: 0; color: var(--ink-soft); font-style: italic; }
+.doors { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 10px; }
+.finale .doors { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+@media (max-width: 600px) {
+  .doors { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+.door {
+  --fw: clamp(10px, 1.9vw, 16px);
+  position: relative; aspect-ratio: 3 / 4; max-width: 100%; padding: 0;
+  border: var(--fw) solid transparent; border-image: url("frame.jpg") 66 stretch;
+  background: var(--paper-2);
+  font: inherit; color: var(--ink); cursor: pointer; perspective: 700px;
+  box-shadow: 3px 5px 8px -3px var(--shadow);
+  transition: transform .3s cubic-bezier(.2, .8, .2, 1), box-shadow .3s, filter .3s;
+  animation: hang .8s cubic-bezier(.2, .8, .2, 1) backwards;
+  animation-delay: calc(var(--i) * 40ms);
+}
+@keyframes hang { from { transform: translateY(-16px) rotate(-3deg); opacity: 0; } }
+/* light catching the gilt */
+.door::after {
+  content: ""; position: absolute; inset: calc(-1 * var(--fw)); z-index: 4; pointer-events: none; opacity: 0; mix-blend-mode: soft-light;
+  background: linear-gradient(105deg, transparent 38%, rgba(255, 250, 230, .95) 50%, transparent 62%);
+  background-size: 300% 100%; background-position: 150% 0;
+}
+.door.ready::after, .door.open::after { opacity: 1; animation: sheen 6s ease-in-out infinite; animation-delay: calc(var(--i) * 230ms); }
+.door.open::after { opacity: .5; }
+@keyframes sheen { 0%, 60% { background-position: 150% 0; } 90%, 100% { background-position: -50% 0; } }
+
+.door .mat, .door .leaf {
+  position: absolute; inset: 0; display: grid; grid-template-rows: 1fr auto; align-items: center; justify-items: center;
+  padding: 10px 6px; text-align: center; overflow: hidden;
+}
+.door .mat {
+  background: var(--paper-2);
+  box-shadow: inset 0 3px 10px rgba(0, 0, 0, .3);
+}
+.door .mat img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.door .mat img.wide { object-fit: contain; background: #1b2238; }
+.door .leaf {
+  z-index: 2; transform-origin: left center; backface-visibility: hidden;
+  background: radial-gradient(circle at 50% 38%, var(--ticket), var(--gold-wash) 85%);
+  box-shadow: inset 0 0 0 1px var(--line), 2px 0 6px var(--shadow);
+  transition: transform .75s cubic-bezier(.55, 0, .2, 1);
+}
+.door.ready:hover .leaf { transform: rotateY(-16deg); }
+.door.swing .leaf { transform: rotateY(-108deg); }
+
+.door:nth-child(odd):hover { transform: translateY(-3px) rotate(-1deg); box-shadow: 5px 12px 16px -6px var(--shadow); }
+.door:nth-child(even):hover { transform: translateY(-3px) rotate(1deg); box-shadow: 5px 12px 16px -6px var(--shadow); }
+.door:focus-visible { outline: 3px solid var(--plum); outline-offset: 3px; }
+.door .num { font-family: var(--f-display); font-size: clamp(22px, 4.4vw, 34px); line-height: 1; }
+.finale .door { --fw: clamp(14px, 3.2vw, 26px); }
+.finale .door .num { font-size: clamp(30px, 7vw, 56px); }
+.door .when { font-family: var(--f-mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); }
+.door .ph-title { font-size: 12px; line-height: 1.25; font-style: italic; overflow-wrap: anywhere; grid-row: 1 / -1; }
+.door .badge {
+  position: absolute; top: 4px; left: 4px; z-index: 1; min-width: 22px; padding: 1px 5px;
+  font-family: var(--f-display); font-size: 13px; line-height: 1.4; color: #2a1e08; background: var(--gilt); border-radius: 2px;
+}
+
+.door.locked { cursor: default; }
+.door.locked .mat { color: var(--ink-soft); }
+.door.locked:hover { transform: none; box-shadow: 3px 5px 8px -3px var(--shadow); }
+.door.tonight { animation: hang .8s cubic-bezier(.2, .8, .2, 1) backwards, glow 2.8s ease-in-out 1s infinite; animation-delay: calc(var(--i) * 40ms), 1s; }
+@keyframes glow { 50% { box-shadow: 0 0 0 3px var(--gold-wash), 0 0 26px 6px var(--g-mid); } }
+.door .seen {
+  position: absolute; right: 5px; bottom: 7px; z-index: 1; transform: rotate(-12deg);
+  font-family: var(--f-mono); font-weight: 700; font-size: 10px; letter-spacing: .12em;
+  color: var(--plum); background: var(--ticket); border: 1.5px solid var(--plum); padding: 0 4px; border-radius: 3px;
+}
+.door.shake { animation: shake .35s; }
+.settled .door { animation: none; }
+.settled .door.tonight { animation: glow 2.8s ease-in-out infinite; }
+.settled .door.shake { animation: shake .35s; }
+@keyframes shake { 25% { transform: translateX(-3px) rotate(-1deg); } 75% { transform: translateX(3px) rotate(1deg); } }
+
+/* Ticket dialog */
+dialog {
+  border: 0; padding: 0; background: transparent; color: var(--ink);
+  width: min(820px, calc(100% - 32px)); max-width: 100%;
+}
+dialog::backdrop { background: rgba(15, 18, 32, .62); }
+.ticket {
+  position: relative; display: grid; grid-template-columns: 76px minmax(0, 1fr) 230px; grid-template-areas: "stub main poster";
+  background: var(--ticket); border: 1px solid var(--ink);
+  box-shadow: 0 18px 40px -10px var(--shadow);
+}
+@keyframes ticket-in { from { transform: translateY(26px) rotate(-1.5deg); opacity: 0; } }
+.stub { grid-area: stub;
+  border-right: 2px dashed var(--line); display: flex; align-items: center; justify-content: center;
+  padding: 18px 0;
+}
+.stub-in {
+  writing-mode: vertical-rl; transform: rotate(180deg);
+  font-family: var(--f-mono); font-size: 12px; letter-spacing: .3em; text-transform: uppercase;
+  display: flex; gap: 14px; align-items: center; color: var(--ink-soft);
+}
+.stub-in strong { font-family: var(--f-display); font-weight: 400; font-size: 22px; letter-spacing: .08em; color: var(--ink); }
+.t-main { grid-area: main; padding: 26px 26px 24px 22px; display: grid; gap: 12px; min-width: 0; }
+.eyebrow { margin: 0; font-family: var(--f-mono); font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--gold); }
+.t-main h3 { margin: 0; font-family: var(--f-display); font-weight: 400; font-size: clamp(26px, 6vw, 38px); line-height: 1.08; text-wrap: balance; overflow-wrap: anywhere; }
+.meta { margin: 0; font-family: var(--f-mono); font-size: 13px; color: var(--ink-soft); }
+.meta .fav { color: var(--plum); font-weight: 700; }
+.blurb { margin: 0; font-size: 17px; max-width: 46ch; }
+.actions { display: flex; flex-wrap: wrap; gap: 8px; padding-top: 6px; }
+.btn {
+  font-family: var(--f-mono); font-size: 13px; letter-spacing: .04em; text-decoration: none;
+  display: inline-flex; align-items: center; gap: 6px; cursor: pointer;
+  padding: 9px 13px; border: 1px solid var(--ink); background: var(--ink); color: var(--ticket);
+}
+.btn.ghost { background: transparent; color: var(--ink); }
+.btn.on { background: var(--plum); border-color: var(--plum); color: var(--ticket); }
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+.btn:focus-visible, .close:focus-visible, input:focus-visible { outline: 2px solid var(--plum); outline-offset: 2px; }
+.custom { display: grid; gap: 8px; padding: 14px; border: 1px dashed var(--plum); }
+.custom label { font-size: 15px; }
+.custom .row { display: flex; flex-wrap: wrap; gap: 8px; }
+.custom input {
+  flex: 1 1 200px; min-width: 0; font: inherit; font-size: 16px; padding: 8px 10px;
+  background: var(--paper); color: var(--ink); border: 1px solid var(--ink);
+}
+.close {
+  position: absolute; top: 8px; right: 8px; width: 34px; height: 34px; cursor: pointer;
+  background: transparent; border: 0; color: var(--ink-soft); font-size: 24px; line-height: 1; font-family: var(--f-body);
+}
+.t-poster { grid-area: poster; align-self: center; padding: 50px 22px 24px 0; min-width: 0; }
+.gilt { box-shadow: 4px 10px 18px -8px var(--shadow); }
+.gilt > * { display: block; width: 100%; aspect-ratio: 2 / 3; }
+.gilt img { object-fit: cover; }
+dialog.entering .ticket { animation: ticket-in .5s cubic-bezier(.2, .8, .2, 1); }
+dialog.entering .gilt img { animation: develop 1.6s ease-out; }
+.gilt img.wide { aspect-ratio: auto; height: auto; }
+@keyframes develop { from { filter: sepia(1) brightness(1.5) contrast(.6) blur(3px); } }
+.ph {
+  display: grid !important; place-content: center; gap: 8px; padding: 14px; text-align: center;
+  background: radial-gradient(circle at 50% 35%, #2c3554, #141a2b); color: #ece2cc;
+}
+.ph small { font-family: var(--f-mono); font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: #d6aa52; }
+.ph strong { font-family: var(--f-display); font-weight: 400; font-size: 20px; line-height: 1.1; overflow-wrap: anywhere; }
+.note { margin: 0; font-size: 13px; color: var(--ink-soft); font-style: italic; }
+
+.toast {
+  position: fixed; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%);
+  z-index: 10; max-width: calc(100% - 32px);
+  font-family: var(--f-mono); font-size: 13px; padding: 10px 14px;
+  background: var(--ink); color: var(--paper); box-shadow: 0 6px 20px var(--shadow);
+}
+footer { padding-top: 24px; border-top: 1px solid var(--line); text-align: center; font-family: var(--f-mono); font-size: 12px; color: var(--ink-soft); }
+
+@media (max-width: 640px) {
+  .ticket { grid-template-columns: 52px minmax(0, 1fr); grid-template-areas: "stub poster" "stub main"; }
+  .t-poster { padding: 44px 18px 0 16px; width: 170px; max-width: 100%; }
+  .t-main { padding: 18px 18px 20px 16px; }
+}
+@media (max-width: 480px) {
+  .stub-in strong { font-size: 18px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="beam" aria-hidden="true"></div>
+<canvas id="dust" aria-hidden="true"></canvas>
+<div class="wrap">
+  <header>
+    <div class="kicker" id="kicker"></div>
+    <h1 id="title"></h1>
+    <div class="rule" aria-hidden="true"><span></span></div>
+    <p class="status" id="status">One Christmas movie a night, 1 to 25 December.</p>
+    <div class="controls">
+      <button class="btn ghost" id="peek-toggle" type="button">Preview all doors</button>
+      <button class="btn ghost" id="sfx-toggle" type="button">Sounds on</button>
+    </div>
+  </header>
+  <main id="reels"></main>
+  <footer id="footer"></footer>
+</div>
+
+<div class="show" id="show" hidden>
+  <canvas id="leader" width="960" height="960" aria-hidden="true"></canvas>
+  <div class="gift" id="gift" hidden aria-hidden="true">
+    <div class="rays"></div>
+    <div class="wrap-box"><div class="box"></div><div class="lid"><span class="bow"></span></div></div>
+  </div>
+  <p class="skip">Tap to skip</p>
+</div>
+<dialog id="ticket" aria-labelledby="t-title"></dialog>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script src="movies.js"></script>
+<script>
+const CFG = window.ADVENT || {};
+const SEASON = CFG.year || new Date().getFullYear();
+const MAX_SWAPS = CFG.swapsPerNight ?? 3;
+const STORE_KEY = "christmas-movie-advent-" + SEASON;
+let PEEK = /peek/.test(location.hash);
+
+// Turn movies.js into the lookup tables the calendar uses
+const MOVIES = {}, LINEUP = [], BACKUP = [];
+const slug = (s) => String(s).toLowerCase().normalize("NFKD").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+function addMovie(m) {
+  let id = slug(m.title + " " + (m.year || "")) || "movie";
+  while (MOVIES[id] && MOVIES[id].t !== m.title) id += "-x";
+  MOVIES[id] = { t: m.title, y: m.year, b: m.blurb || "", fav: !!m.favourite, poster: m.poster || null };
+  return id;
+}
+const NIGHTS = (CFG.nights || []).slice().sort((a, b) => a.day - b.day);
+NIGHTS.forEach((m) => { LINEUP[m.day - 1] = addMovie(m); });
+const NIGHT_COUNT = LINEUP.length;
+const posterSrc = (id) => (id && MOVIES[id] && MOVIES[id].poster) || null;
+const REELS = (CFG.reels || []).map((r, i) => {
+  BACKUP[i] = (r.swaps || []).map(addMovie);
+  return { name: r.name, label: r.label, vibe: r.vibe, from: r.days[0], to: r.days[1] };
+});
+const PROBLEMS = [];
+for (let n = 1; n <= NIGHT_COUNT; n++) {
+  if (!LINEUP[n - 1]) PROBLEMS.push(`There's no movie for day ${n}. Add one to "nights" in movies.js.`);
+  else if (!REELS.some((r) => n >= r.from && n <= r.to)) PROBLEMS.push(`Day ${n} isn't inside any reel's "days" range in movies.js.`);
+}
+if (!NIGHT_COUNT) PROBLEMS.push("movies.js didn't load, or its \"nights\" list is empty.");
+
+let state = {};          // "d07" -> { opened, watched, swaps, pickId, custom, history }
+let openDay = null;
+let editingCustom = false;
+
+const $ = (id) => document.getElementById(id);
+const key = (n) => "d" + String(n).padStart(2, "0");
+const day = (n) => state[key(n)] || {};
+const reelOf = (n) => REELS.findIndex((r) => n >= r.from && n <= r.to);
+const doorDate = (n) => new Date(SEASON, 11, n);
+const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+function isUnlocked(n) { return PEEK || new Date() >= doorDate(n); }
+function tonight() {
+  const now = new Date();
+  return now.getFullYear() === SEASON && now.getMonth() === 11 && now.getDate() <= NIGHT_COUNT ? now.getDate() : null;
+}
+function pickOf(n) {
+  const d = day(n);
+  if (d.custom) return { t: d.custom, custom: true };
+  return MOVIES[d.pickId] || MOVIES[LINEUP[n - 1]];
+}
+function currentId(n) { const d = day(n); return d.custom ? null : (d.pickId || LINEUP[n - 1]); }
+const WATCH = CFG.whereToWatch || { label: "Where to watch", searchUrl: "https://www.justwatch.com/us/search?q=" };
+function watchUrl(title) { return WATCH.searchUrl + encodeURIComponent(title); }
+
+function renderStatus() {
+  const now = new Date();
+  const start = doorDate(1);
+  const t = tonight();
+  let html;
+  if (PEEK) html = `Previewing all ${NIGHT_COUNT} doors.`;
+  else if (now < start) {
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const days = Math.round((start - today) / 86400000);
+    html = `Door one opens in <strong>${days}</strong> ${days === 1 ? "day" : "days"}.`;
+  } else if (t) {
+    html = `Tonight is door <strong>${t}</strong>: ${day(t).opened ? esc(pickOf(t).t) : "still sealed"}.`;
+  } else html = `That's a wrap for ${SEASON}. Merry Christmas.`;
+  $("status").innerHTML = html;
+}
+
+function renderDoors() {
+  const t = tonight();
+  $("reels").innerHTML = REELS.map((r, i) => {
+    const doors = [];
+    for (let n = r.from; n <= r.to; n++) {
+      const d = day(n);
+      const unlocked = isUnlocked(n);
+      const opened = unlocked && !!d.opened;
+      const cls = !unlocked ? "locked" : opened ? "open" : "ready";
+      const when = doorDate(n).toLocaleDateString("en-AU", { day: "numeric", month: "short" });
+      const pick = pickOf(n);
+      const src = posterSrc(currentId(n));
+      const label = !unlocked ? `Door ${n}, opens ${when}` : opened ? `Door ${n}: ${pick.t}` : `Door ${n}, ready to open`;
+      const picture = src ? `<img src="${esc(src)}" alt="" loading="lazy" referrerpolicy="no-referrer" data-title="${esc(pick.t)}">` : `<span class="ph-title">${esc(pick.t)}</span>`;
+      let inner;
+      if (!unlocked) inner = `<span class="mat"><span class="num">${n}</span><span class="when">${when}</span></span>`;
+      else if (!opened) inner = `<span class="mat">${picture}</span><span class="leaf"><span class="num">${n}</span><span class="when">${when}</span></span>`;
+      else inner = `<span class="mat">${picture}<span class="badge">${n}</span>${d.watched ? `<span class="seen">Seen</span>` : ""}</span>`;
+      doors.push(`<button class="door ${cls}${n === t ? " tonight" : ""}" style="--i:${n - 1}" data-n="${n}" aria-label="${esc(label)}">${inner}</button>`);
+    }
+    return `<section class="reel${i === REELS.length - 1 && r.to - r.from < 6 ? " finale" : ""}">
+      <div class="reel-head"><h2>${r.name}</h2><span class="dates">${r.from}–${r.to} Dec · ${r.label}</span><p class="vibe">${r.vibe}</p></div>
+      <div class="doors">${doors.join("")}</div>
+    </section>`;
+  }).join("");
+}
+
+function renderTicket() {
+  const n = openDay;
+  if (!n) return;
+  const d = day(n);
+  const r = REELS[reelOf(n)];
+  const pick = pickOf(n);
+  const swaps = d.swaps || 0;
+  const left = MAX_SWAPS - swaps;
+  const dateLabel = doorDate(n).toLocaleDateString("en-AU", { weekday: "long", day: "numeric", month: "long" });
+  const showForm = editingCustom || (left <= 0 && !d.custom);
+  const blurb = pick.custom ? `Your own pick for a ${r.label.toLowerCase()} night.` : pick.b;
+  const metaBits = [pick.y, dateLabel].filter(Boolean).map(esc);
+  if (pick.fav) metaBits.push(`<span class="fav">${esc(CFG.favouriteLabel || "A favourite")}</span>`);
+  if (pick.custom) metaBits.push(`<span class="fav">Chosen by you</span>`);
+
+  $("ticket").innerHTML = `<div class="ticket">
+    <div class="stub"><div class="stub-in"><span>Admit</span><strong>${esc(CFG.admit || "One")}</strong><span>No.&nbsp;${String(n).padStart(2, "0")}</span></div></div>
+    <div class="t-poster"><div class="gilt">${posterSrc(currentId(n)) ? `<img src="${esc(posterSrc(currentId(n)))}" alt="Poster for ${esc(pick.t)}" referrerpolicy="no-referrer" data-title="${esc(pick.t)}">` : `<div class="ph"><small>Feature presentation</small><strong>${esc(pick.t)}</strong></div>`}</div></div>
+    <div class="t-main">
+      <p class="eyebrow">${r.name} · ${r.label}</p>
+      <h3 id="t-title">${esc(pick.t)}</h3>
+      <p class="meta">${metaBits.join(" · ")}</p>
+      <p class="blurb">${esc(blurb)}</p>
+      <div class="actions">
+        <a class="btn" href="${watchUrl(pick.t)}" target="_blank" rel="noopener">${esc(WATCH.label)} ↗</a>
+        <button class="btn ${d.watched ? "on" : "ghost"}" id="t-watched">${d.watched ? "Watched ✓" : "Mark as watched"}</button>
+        ${!pick.custom && left > 0 ? `<button class="btn ghost" id="t-swap">Swap movie · ${left} left</button>` : ""}
+        ${pick.custom && !editingCustom ? `<button class="btn ghost" id="t-edit">Change my pick</button>` : ""}
+      </div>
+      ${showForm ? `<form class="custom" id="t-custom">
+        <label for="t-custom-input">${pick.custom ? "Change tonight's movie." : "You've used all your swaps. Choose your own movie for tonight."} The vibe: <em>${esc(r.vibe.toLowerCase())}</em></label>
+        <div class="row">
+          <input id="t-custom-input" autocomplete="off" placeholder="Movie title" value="${esc(d.custom || "")}" required maxlength="120">
+          <button class="btn" type="submit">Set tonight's movie</button>
+        </div>
+      </form>` : ""}
+    </div>
+    <button class="close" id="t-close" aria-label="Close ticket">×</button>
+  </div>`;
+}
+
+function render() { renderStatus(); renderDoors(); renderTicket(); }
+
+let toastTimer;
+function toast(msg) {
+  const el = $("toast");
+  el.textContent = msg; el.hidden = false;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { el.hidden = true; }, 3200);
+}
+
+function load() {
+  try { return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; } catch (_) { return {}; }
+}
+function save(n, patch) {
+  const k = key(n);
+  state = { ...state, [k]: { ...day(n), ...patch } };
+  render();
+  if (PEEK) return;
+  try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); }
+  catch (_) { toast("This browser isn't letting the calendar save. Your doors will reset when you close the page."); }
+}
+
+function swap(n) {
+  const d = day(n);
+  const r = reelOf(n);
+  const showing = new Set();
+  for (let i = 1; i <= NIGHT_COUNT; i++) { const id = currentId(i); if (id) showing.add(id); }
+  const tried = new Set([...(d.history || []), currentId(n)]);
+  let pool = BACKUP[r].filter((id) => !showing.has(id) && !tried.has(id));
+  if (!pool.length) pool = BACKUP.flat().filter((id) => !showing.has(id) && !tried.has(id));
+  if (!pool.length) { toast("No backups left. Choose your own movie below."); save(n, { swaps: MAX_SWAPS }); return; }
+  const next = pool[Math.floor(Math.random() * pool.length)];
+  save(n, { pickId: next, swaps: (d.swaps || 0) + 1, history: [...tried].filter(Boolean) });
+}
+
+function openTicket(n) {
+  openDay = n; editingCustom = false;
+  if (!day(n).opened) save(n, { opened: true });
+  renderTicket();
+  const dlg = $("ticket");
+  dlg.classList.add("entering");
+  setTimeout(() => dlg.classList.remove("entering"), 1700);
+  if (!dlg.open) dlg.showModal();
+}
+
+$("reels").addEventListener("click", (e) => {
+  const btn = e.target.closest(".door");
+  if (!btn) return;
+  const n = +btn.dataset.n;
+  if (!isUnlocked(n)) {
+    btn.classList.remove("shake"); void btn.offsetWidth; btn.classList.add("shake");
+    toast(`Door ${n} opens on ${n} December.`);
+    return;
+  }
+  if (btn.classList.contains("ready") && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    btn.classList.add("swing");
+    playShow().then(() => openTicket(n));
+  } else openTicket(n);
+});
+
+$("ticket").addEventListener("click", (e) => {
+  const dlg = $("ticket");
+  if (e.target === dlg || e.target.closest("#t-close")) { dlg.close(); return; }
+  if (e.target.closest("#t-watched")) save(openDay, { watched: !day(openDay).watched });
+  else if (e.target.closest("#t-swap")) swap(openDay);
+  else if (e.target.closest("#t-edit")) { editingCustom = true; renderTicket(); $("t-custom-input")?.focus(); }
+});
+$("ticket").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const v = $("t-custom-input").value.trim();
+  if (!v) return;
+  editingCustom = false;
+  save(openDay, { custom: v, watched: false });
+  toast("Tonight's movie is set.");
+});
+$("ticket").addEventListener("close", () => { openDay = null; editingCustom = false; });
+
+// ---------- Sound ----------
+const pref = (k, d) => { try { const v = localStorage.getItem(k); return v === null ? d : v === "1"; } catch (_) { return d; } };
+const setPref = (k, v) => { try { localStorage.setItem(k, v ? "1" : "0"); } catch (_) {} };
+let sfxOn = pref("pn-sfx", true);
+let ac = null, master = null;
+function audio() {
+  if (!ac) {
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return null;
+    ac = new AC();
+    master = ac.createGain(); master.gain.value = .55; master.connect(ac.destination);
+  }
+  if (ac.state === "suspended") ac.resume();
+  return ac;
+}
+function tone(freq, start, dur, { type = "sine", gain = .2, attack = .005, dest = master } = {}) {
+  const o = ac.createOscillator(), g = ac.createGain();
+  o.type = type; o.frequency.value = freq;
+  g.gain.setValueAtTime(0, start);
+  g.gain.linearRampToValueAtTime(gain, start + attack);
+  g.gain.exponentialRampToValueAtTime(.0001, start + dur);
+  o.connect(g); g.connect(dest);
+  o.start(start); o.stop(start + dur + .05);
+}
+// a music-box pluck: bright fundamental plus a faint high partial
+function pluck(freq, start, dur = 1.4, gain = .16) {
+  tone(freq, start, dur, { gain });
+  tone(freq * 4, start, dur * .35, { gain: gain * .18 });
+}
+// a soft bell: fundamental plus the slightly out-of-tune partials real bells have
+function bell(freq, start, gain = .14) {
+  tone(freq, start, 2.2, { gain });
+  tone(freq * 2.76, start, .9, { gain: gain * .25 });
+  tone(freq * 5.4, start, .4, { gain: gain * .1 });
+  tone(freq / 2, start, 1.6, { gain: gain * .35, attack: .01 });
+}
+// 3, 2, 1: a bell for each number, rising
+function sfxCountdown(step) {
+  if (!sfxOn || !audio()) return;
+  const t = ac.currentTime + .03;
+  [783.99, 880, 987.77].forEach((f, i) => bell(f, t + i * step));
+}
+// the reveal: a harp run up the scale, landing on a bright chord with sparkles on top
+function sfxGift() {
+  if (!sfxOn || !audio()) return;
+  const t = ac.currentTime + .9;
+  [523.25, 587.33, 659.25, 783.99, 880, 1046.5, 1174.66, 1318.51, 1567.98].forEach((f, i) => pluck(f, t + i * .035, 1.1, .08));
+  const chord = t + .36;
+  [523.25, 659.25, 783.99, 1046.5].forEach((f) => { tone(f, chord, 2.6, { gain: .07, attack: .03 }); tone(f * 2, chord, 1.2, { gain: .025, attack: .03 }); });
+  tone(130.81, chord, 2.4, { gain: .12, attack: .02 });
+  for (let i = 0; i < 12; i++) tone(2600 + Math.random() * 2600, chord + Math.random() * 1.1, .3, { gain: .025 });
+}
+
+function syncSoundButtons() {
+  $("sfx-toggle").textContent = sfxOn ? "Sounds on" : "Sounds off";
+}
+$("sfx-toggle").addEventListener("click", () => { sfxOn = !sfxOn; setPref("pn-sfx", sfxOn); syncSoundButtons(); });
+syncSoundButtons();
+
+// ---------- Opening show ----------
+function drawLeader(ctx, num, frac) {
+  const S = ctx.canvas.width, c = S / 2, R = S * .4;
+  const flick = .9 + Math.random() * .1;
+  ctx.fillStyle = `rgb(${Math.round(222 * flick)},${Math.round(208 * flick)},${Math.round(176 * flick)})`;
+  ctx.fillRect(0, 0, S, S);
+  // the sweeping hand
+  ctx.fillStyle = "rgba(60, 44, 24, .28)";
+  ctx.beginPath(); ctx.moveTo(c, c); ctx.arc(c, c, S, -Math.PI / 2, -Math.PI / 2 + frac * Math.PI * 2); ctx.closePath(); ctx.fill();
+  ctx.strokeStyle = "rgba(40, 30, 18, .85)"; ctx.lineWidth = S * .008;
+  ctx.beginPath(); ctx.moveTo(0, c); ctx.lineTo(S, c); ctx.moveTo(c, 0); ctx.lineTo(c, S); ctx.stroke();
+  ctx.lineWidth = S * .012;
+  ctx.beginPath(); ctx.arc(c, c, R, 0, Math.PI * 2); ctx.stroke();
+  ctx.beginPath(); ctx.arc(c, c, R * .84, 0, Math.PI * 2); ctx.stroke();
+  ctx.fillStyle = "#211a10";
+  ctx.font = `${Math.round(S * .42)}px Limelight, Didot, Georgia, serif`;
+  ctx.textAlign = "center"; ctx.textBaseline = "middle";
+  ctx.fillText(String(num), c, c + S * .03);
+  // grain, dust and the odd scratch
+  for (let i = 0; i < 260; i++) {
+    ctx.fillStyle = Math.random() < .5 ? "rgba(30,20,10,.35)" : "rgba(255,250,235,.4)";
+    ctx.fillRect(Math.random() * S, Math.random() * S, Math.random() * 3 + 1, Math.random() * 3 + 1);
+  }
+  if (Math.random() < .35) {
+    ctx.strokeStyle = "rgba(30,20,10,.35)"; ctx.lineWidth = 2;
+    const x = Math.random() * S; ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x + (Math.random() - .5) * 30, S); ctx.stroke();
+  }
+  const v = ctx.createRadialGradient(c, c, S * .3, c, c, S * .72);
+  v.addColorStop(0, "rgba(0,0,0,0)"); v.addColorStop(1, "rgba(20,12,4,.65)");
+  ctx.fillStyle = v; ctx.fillRect(0, 0, S, S);
+}
+function playShow() {
+  return new Promise((resolve) => {
+    const show = $("show"), cv = $("leader"), gift = $("gift"), ctx = cv.getContext("2d");
+    const STEP = .8;
+    let done = false, raf = 0;
+    const timers = [];
+    const finish = () => {
+      if (done) return; done = true;
+      cancelAnimationFrame(raf); timers.forEach(clearTimeout);
+      show.classList.add("out");
+      setTimeout(() => { show.hidden = true; show.classList.remove("out"); gift.classList.remove("go"); resolve(); }, 320);
+    };
+    show.onclick = finish;
+    cv.hidden = false; gift.hidden = true; gift.classList.remove("go");
+    gift.querySelectorAll(".spark").forEach((el) => el.remove());
+    show.hidden = false;
+    sfxCountdown(STEP);
+    const t0 = performance.now();
+    const frame = (now) => {
+      const t = (now - t0) / 1000;
+      if (t >= STEP * 3) return;
+      drawLeader(ctx, 3 - Math.floor(t / STEP), (t % STEP) / STEP);
+      raf = requestAnimationFrame(frame);
+    };
+    raf = requestAnimationFrame(frame);
+    timers.push(setTimeout(() => {
+      cv.hidden = true; gift.hidden = false;
+      for (let i = 0; i < 22; i++) {
+        const sp = document.createElement("span"), a = Math.random() * Math.PI * 2, d = 80 + Math.random() * 120;
+        sp.className = "spark";
+        sp.style.setProperty("--dx", Math.cos(a) * d + "px");
+        sp.style.setProperty("--dy", Math.sin(a) * d - 40 + "px");
+        sp.style.setProperty("--d", Math.random() * .25 + "s");
+        gift.appendChild(sp);
+      }
+      void gift.offsetWidth; gift.classList.add("go");
+      sfxGift();
+    }, STEP * 3 * 1000));
+    timers.push(setTimeout(finish, STEP * 3 * 1000 + 2000));
+  });
+}
+
+document.addEventListener("error", (e) => {
+  const img = e.target;
+  if (img.tagName !== "IMG") return;
+  const title = img.dataset.title || "";
+  const ph = document.createElement(img.closest(".gilt") ? "div" : "span");
+  if (img.closest(".gilt")) { ph.className = "ph"; ph.innerHTML = "<small>Feature presentation</small><strong></strong>"; ph.querySelector("strong").textContent = title; }
+  else { ph.className = "ph-title"; ph.textContent = title; }
+  img.replaceWith(ph);
+}, true);
+
+document.addEventListener("load", (e) => {
+  const img = e.target;
+  if (img.tagName === "IMG" && img.naturalWidth > img.naturalHeight) img.classList.add("wide");
+}, true);
+
+(function dust() {
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const c = $("dust"), ctx = c.getContext("2d");
+  let w = 0, h = 0;
+  function size() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    w = innerWidth; h = innerHeight;
+    c.width = w * dpr; c.height = h * dpr; c.style.width = w + "px"; c.style.height = h + "px";
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  size(); addEventListener("resize", size);
+  const motes = Array.from({ length: Math.round(Math.min(80, (w * h) / 16000)) }, () => ({
+    x: Math.random() * w, y: Math.random() * h, r: Math.random() * 1.6 + .4,
+    vx: (Math.random() - .5) * .15, vy: -(Math.random() * .2 + .05), p: Math.random() * 6.28,
+  }));
+  const readColor = () => getComputedStyle(document.documentElement).getPropertyValue("--dust").trim() || "#b07f24";
+  let color = readColor();
+  setInterval(() => { color = readColor(); }, 2000);
+  function tick() {
+    ctx.clearRect(0, 0, w, h);
+    ctx.fillStyle = color;
+    for (const m of motes) {
+      m.x += m.vx; m.y += m.vy; m.p += .015;
+      if (m.y < -4) { m.y = h + 4; m.x = Math.random() * w; }
+      if (m.x < -4) m.x = w + 4; else if (m.x > w + 4) m.x = -4;
+      ctx.globalAlpha = .25 + .3 * Math.sin(m.p);
+      ctx.beginPath(); ctx.arc(m.x, m.y, m.r, 0, 6.283); ctx.fill();
+    }
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+})();
+
+let realState = null;
+function setPeek(on) {
+  if (on === PEEK) return;
+  PEEK = on;
+  if (on) realState = state;
+  else if (realState) state = realState;
+  $("peek-toggle").textContent = on ? "Back to the real calendar" : "Preview all doors";
+  if ($("ticket").open) $("ticket").close();
+  render();
+}
+$("peek-toggle").addEventListener("click", () => setPeek(!PEEK));
+window.addEventListener("hashchange", () => setPeek(/peek/.test(location.hash)));
+$("peek-toggle").textContent = PEEK ? "Back to the real calendar" : "Preview all doors";
+
+document.title = CFG.title || "Christmas Movie Advent";
+$("title").textContent = CFG.title || "Christmas Movie Advent";
+$("kicker").textContent = CFG.kicker || `December ${SEASON}`;
+$("footer").textContent = `Doors open at midnight. Each night gets ${MAX_SWAPS} ${MAX_SWAPS === 1 ? "swap" : "swaps"}.`;
+if (PROBLEMS.length) {
+  $("reels").innerHTML = `<section class="reel"><div class="reel-head"><h2>Check movies.js</h2></div>${PROBLEMS.map((p) => `<p class="note">${esc(p)}</p>`).join("")}</section>`;
+} else {
+  state = load();
+  if (PEEK) { realState = state; state = { ...state }; }
+  render();
+  setTimeout(() => $("reels").classList.add("settled"), 2000);
+}
+</script>
+
+</body>
+</html>
